@@ -46,7 +46,7 @@ jobs:
           host: ${{secrets.SERVER_HOST}}
           username: ${{secrets.SERVER_USER}}
           password: ${{secrets.SERVER_PASSWORD}}
-          source: "deploy/docker-compose.yaml"
+          source: "deploy/*"
           target: "deploy"
           strip_components: 1
       - name: run
