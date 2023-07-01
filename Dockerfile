@@ -4,6 +4,7 @@ WORKDIR = /opt/todolist
 
 COPY requirements.txt .
 
+RUN apt-get update && apt-get install -y libpq-dev build-essential
 RUN python3 -m pip install --no-cache -r requirements.txt
 
 COPY . .
