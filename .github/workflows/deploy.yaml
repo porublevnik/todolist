@@ -58,6 +58,5 @@ jobs:
           password: ${{secrets.SERVER_PASSWORD}}
           script: |
             cd todolist
-            docker-compose pull
             docker-compose up -d
 
