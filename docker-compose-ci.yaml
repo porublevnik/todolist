@@ -17,7 +17,7 @@ services:
       retries: 10
 
   run_migrations:
-    image: ${DOCKERHUB_USERNAME}/todolist:latest
+    image: porublevnik/todolist:latest
     env_file: .env
     depends_on:
       db:
