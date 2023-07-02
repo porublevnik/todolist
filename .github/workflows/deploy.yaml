@@ -60,4 +60,3 @@ jobs:
           script: |
             cd todolist
             docker-compose up -d
-
