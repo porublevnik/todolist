@@ -61,6 +61,7 @@ jobs:
             cd todolist
             docker-compose up -d
       - name: cleanup
+        uses: appleboy/ssh-action@master
         if: always
         with:
           host: ${{secrets.SERVER_HOST}}
