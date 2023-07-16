@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'todolist.urls'
@@ -137,6 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'core.User'
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
+# SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_VK_OAUTH2_KEY = env('VK_OAUTH_KEY')
 SOCIAL_AUTH_VK_OAUTH2_SECRET = env('VK_OAUTH_SECRET')
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
@@ -144,7 +146,12 @@ SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/logged-in/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
 SOCIAL_AUTH_USER_MODEL = 'core.User'
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+# SESSION_COOKIE_SAMESITE = None
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
-    'django.contrib.auth.backends.ModelBackend'
+    'django.contrib.auth.backends.ModelBackend',
 )
+
+# REST_FRAMEWORK = {
+#     "DEFAULT_PERMISSION_CLASSES": ['rest_framework.permissions.IsAuthenticated',],
+# }

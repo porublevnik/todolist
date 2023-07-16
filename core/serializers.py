@@ -1,13 +1,24 @@
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 
 from .models import User
 
+
+class PasswordField(serializers.CharField):
+    def __init__(self, validate: bool = True, **kwargs) -> None:
+        kwargs.setdefault('write_only', True)
+        kwargs.setdefault('required', True)
+        super().__init__(**kwargs)
+        if validate:
+            self.validators.append(validate_password)
+
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(required=True)
-    password_repeat = serializers.CharField(write_only=True, required=True)
+    password = PasswordField()
+    password_repeat = PasswordField(validate=False)
 
     class Meta:
         model = User
@@ -26,12 +37,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        user = User.objects.create(**validated_data)
+        validated_data['password'] = make_password(
+            validated_data['password']
+        )
+        return User.objects.create(**validated_data)
 
-        user.set_password(validated_data['password'])
-        user.save()
-
-        return user
 
 class UserLoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
