@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
             ],
         },
     },
@@ -144,6 +145,7 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = env('VK_OAUTH_SECRET')
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/logged-in/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 SOCIAL_AUTH_USER_MODEL = 'core.User'
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 # SESSION_COOKIE_SAMESITE = None
