@@ -10,9 +10,9 @@ urlpatterns = [
 
     path("goal/create", goals.GoalCreateView.as_view(), name='goal_create'),
     path("goal/list", goals.GoalListView.as_view(), name='goal_list'),
-    path("goal/<pk>", goals.GoalDetailView.as_view(), name='goal_pk'),
+    path("goal/<pk>", goals.GoalView.as_view(), name='goal_pk'),
 
     path('goal_comment/create', goal_comments.GoalCommentCreateView.as_view(), name='comment-create'),
     path('goal_comment/list', goal_comments.GoalCommentListView.as_view(), name='comment-list'),
-    path('goal_comment/<int:pk>', goal_comments.GoalCommentDetailView.as_view(), name='comment-detail'),
+    path('goal_comment/<int:pk>', goal_comments.GoalCommentView.as_view(), name='comment-detail'),
 ]

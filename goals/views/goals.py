@@ -6,7 +6,7 @@ from rest_framework import filters
 
 from goals.filters import GoalDateFilter
 from goals.models import Goal
-from goals.serializers.goals import GoalCreateSerializer, GoalSerializer
+from goals.serializers.goals import GoalCreateSerializer, GoalSerializer, GoalDetailSerializer
 
 
 class GoalCreateView(CreateAPIView):
@@ -30,14 +30,19 @@ class GoalListView(ListAPIView):
     ordering = ["deadline", "priority"]
     search_fields = ["title"]
 
+    # def get_queryset(self):
+    #     return Goal.objects.filter(
+    #         user=self.request.user, is_deleted=False
+    #     ).exclude(status=Goal.status.archived)
     def get_queryset(self):
-        return Goal.objects.filter(
-            user=self.request.user, is_deleted=False
-        )
+        return Goal.objects.select_related('user').filter(
+            user=self.request.user,
+            category__is_deleted=False,
+        ).exclude(status=Goal.Status.archived)
 
-class GoalDetailView(RetrieveUpdateDestroyAPIView):
+class GoalView(RetrieveUpdateDestroyAPIView):
     model = Goal
-    serializer_class = GoalSerializer
+    serializer_class = GoalDetailSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
