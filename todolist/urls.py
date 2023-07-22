@@ -7,6 +7,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('core/', include('core.urls')),
-    path("oauth/", include("social_django.urls", namespace="social")),
+    path("api/oauth/", include("social_django.urls", namespace="social")),
     path("goals/", include("goals.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
