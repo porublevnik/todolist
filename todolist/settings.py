@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_filters',
     'core',
     'goals',
+    # 'bot',
 ]
 
 MIDDLEWARE = [
@@ -154,4 +155,4 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-APPEND_SLASH = True
+BOT_TOKEN = env.str('TG_BOT_TOKEN')
