@@ -4,6 +4,7 @@ from django.utils import timezone
 from core.models import User
 
 class DatesModelMixin(models.Model):
+    '''Класс для моделей с полями "дата создания" и "дата обновления"'''
     class Meta:
         abstract = True  # Помечаем класс как абстрактный – для него не будет таблички в БД
 
@@ -11,13 +12,19 @@ class DatesModelMixin(models.Model):
     updated = models.DateTimeField(verbose_name="Дата последнего обновления")
 
     def save(self, *args, **kwargs):
-        if not self.id:  # Когда модель только создается – у нее нет id
+        '''
+        Задает дату создания при создании пользователя и дату последнего обновления при изменении
+        '''
+        if not self.id:
             self.created = timezone.now()
-        self.updated = timezone.now()  # Каждый раз, когда вызывается save, проставляем свежую дату обновления
+        self.updated = timezone.now()
         return super().save(*args, **kwargs)
 
 
 class Board(DatesModelMixin):
+    '''
+    Модель доски
+    '''
     class Meta:
         verbose_name = "Доска"
         verbose_name_plural = "Доски"
@@ -27,6 +34,7 @@ class Board(DatesModelMixin):
 
 
 class GoalCategory(DatesModelMixin):
+    '''Модель категории цели'''
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
@@ -40,6 +48,7 @@ class GoalCategory(DatesModelMixin):
 
 
 class Goal(DatesModelMixin):
+    '''Модель цели'''
     class Meta:
         verbose_name = "Цель"
         verbose_name_plural = "Цели"
@@ -68,6 +77,9 @@ class Goal(DatesModelMixin):
     category = models.ForeignKey(GoalCategory, verbose_name="Категория", on_delete=models.PROTECT)
 
 class GoalComment(DatesModelMixin):
+    '''
+    Модель комментария к цели
+    '''
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
@@ -78,6 +90,9 @@ class GoalComment(DatesModelMixin):
 
 
 class BoardParticipant(DatesModelMixin):
+    '''
+    Модель участника доски
+    '''
     class Meta:
         unique_together = ("board", "user")
         verbose_name = "Участник"

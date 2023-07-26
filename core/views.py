@@ -15,9 +15,13 @@ class UserRegistrationView(CreateAPIView):
 
 
 class UserLoginView(CreateAPIView):
+    '''
+    Представление для регистрации нового пользователя.
+    '''
     serializer_class = UserLoginSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
+        '''Создание нового пользователя из данных POST-запроса'''
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
@@ -27,21 +31,37 @@ class UserLoginView(CreateAPIView):
 
 
 class UserProfileView(RetrieveUpdateDestroyAPIView):
+    '''
+    Представление для просмотра, обновления профиля пользователя и выхода пользователя
+    '''
     model = User
     permission_classes = [IsAuthenticated]
     serializer_class = UserProfileSerializer
 
-    def get_object(self):
+    def get_object(self) -> User:
+        '''
+        Возврат текущего пользователя
+        '''
         return self.request.user
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs) -> Response:
+        '''
+        Выход пользователя из системы
+        '''
         logout(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserChangePasswordView(UpdateAPIView):
+    '''
+    Представление для смены пароля
+    '''
     serializer_class = UserChangePasswordSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_object(self):
+    def get_object(self) -> User:
+        '''
+        Возврат текущего пользователя
+        '''
+
         return self.request.user
