@@ -18,8 +18,6 @@ class GoalCreateSerializer(serializers.ModelSerializer):
         if value.is_deleted:
             raise serializers.ValidationError("категория удалена")
 
-        # if value.user != self.context["request"].user:
-        #     raise serializers.ValidationError("not owner of category")
 
         if not BoardParticipant.objects.filter(
                 board_id=value.board_id,
@@ -43,9 +41,6 @@ class GoalSerializer(serializers.ModelSerializer):
         if value.is_deleted:
             raise serializers.ValidationError("категория удалена")
 
-        # if value.user != self.context["request"].user:
-        #     raise serializers.ValidationError("not owner of category")
-
         if self.instance.category.board_id != value.board_id:
             raise serializers.ValidationError("Вы не создавали эту категорию")
         return value
@@ -63,8 +58,6 @@ class GoalDetailSerializer(serializers.ModelSerializer):
         if value.is_deleted:
             raise serializers.ValidationError("категория удалена")
 
-        # if value.user != self.context["request"].user:
-        #     raise serializers.ValidationError("not owner of category")
 
         if self.instance.category.board_id != value.board_id:
             raise serializers.ValidationError("Вы не создавали эту категорию")
