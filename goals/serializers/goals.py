@@ -23,7 +23,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 
         if not BoardParticipant.objects.filter(
                 board_id=value.board_id,
-                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer].exists(),
+                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
                 user=self.context["request"].user,
         ).exists():
             raise serializers.ValidationError("Вы не создавали эту категорию")

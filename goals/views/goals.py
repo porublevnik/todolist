@@ -44,7 +44,7 @@ class GoalListView(ListAPIView):
 
 class GoalView(RetrieveUpdateDestroyAPIView):
     model = Goal
-    serializer_class = GoalDetailSerializer
+    serializer_class = GoalSerializer
     permission_classes = [IsAuthenticated]
 
     # def get_queryset(self):
