@@ -39,16 +39,16 @@ class GoalSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("id", "created", "updated", "user", "category")
 
-    # def validate_category(self, value):
-    #     if value.is_deleted:
-    #         raise serializers.ValidationError("категория удалена")
-    #
-    #     # if value.user != self.context["request"].user:
-    #     #     raise serializers.ValidationError("not owner of category")
-    #
-    #     if self.instance.category.board_id != value.board_id:
-    #         raise serializers.ValidationError("Вы не создавали эту категорию")
-    #     return value
+    def validate_category(self, value):
+        if value.is_deleted:
+            raise serializers.ValidationError("категория удалена")
+
+        # if value.user != self.context["request"].user:
+        #     raise serializers.ValidationError("not owner of category")
+
+        if self.instance.category.board_id != value.board_id:
+            raise serializers.ValidationError("Вы не создавали эту категорию")
+        return value
 
 
 class GoalDetailSerializer(serializers.ModelSerializer):
