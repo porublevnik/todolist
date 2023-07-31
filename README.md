@@ -1,7 +1,3 @@
-TodoList
-
-Итоговый проект приложения для планирования целей
-
-Python 3.9
-Django 4.0.1
-Postgres
+# todolist
+## Приложение для планирования целей
+**Python3.10, Django 4.0.1, Postgres**  
