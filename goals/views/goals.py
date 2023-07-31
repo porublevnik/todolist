@@ -31,29 +31,24 @@ class GoalListView(ListAPIView):
     ordering = ["deadline", "priority"]
     search_fields = ["title"]
 
-    # def get_queryset(self):
-    #     return Goal.objects.select_related('user').filter(
-    #         user=self.request.user,
-    #         category__is_deleted=False,
-    #     ).exclude(status=Goal.Status.archived)
 
-    # def get_queryset(self):
-    #     return Goal.objects.filter(
-    #         category__board__participants__user=self.request.user,
-    #         status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
-    #     )
+    def get_queryset(self):
+        return Goal.objects.filter(
+            category__board__participants__user=self.request.user,
+            status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
+        )
 
 class GoalView(RetrieveUpdateDestroyAPIView):
     model = Goal
     serializer_class = GoalSerializer
     permission_classes = [IsAuthenticated]
 
-    # def get_queryset(self):
-    #     return Goal.objects.filter(user=self.request.user)
 
-    # def get_queryset(self):
-    #     return Goal.objects.filter(category__board__participants__user=self.request.user,
-    #                                status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done])
+    def get_queryset(self):
+        return Goal.objects.filter(
+            category__board__participants__user=self.request.user,
+            status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
+        )
 
     def perform_destroy(self, instance):
         instance.status = Goal.Status.archived
