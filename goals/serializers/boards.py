@@ -1,4 +1,4 @@
-from plistlib import Dict
+from typing import Dict
 
 from django.db import transaction
 from rest_framework import serializers
