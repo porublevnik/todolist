@@ -18,7 +18,7 @@ class GoalCreateView(CreateAPIView):
 
 class GoalListView(ListAPIView):
     model = Goal
-    permission_classes = [IsAuthenticated, Goal]
+    permission_classes = [IsAuthenticated]
     serializer_class = GoalSerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [
