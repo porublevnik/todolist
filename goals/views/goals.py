@@ -12,7 +12,7 @@ from goals.permissions import GoalPermissions
 
 class GoalCreateView(CreateAPIView):
     model = Goal
-    permission_classes = [IsAuthenticated, GoalPermissions]
+    permission_classes = [IsAuthenticated]
     serializer_class = GoalCreateSerializer
 
 
