@@ -1,41 +1,44 @@
-from dataclasses import field
-from typing import ClassVar, Type, List, Optional
+from dataclasses import dataclass, field
+from typing import List, Optional
 
-from marshmallow_dataclass import dataclass
-from marshmallow import Schema, EXCLUDE
+from marshmallow import EXCLUDE
+import marshmallow_dataclass
 
 
 @dataclass
 class MessageFrom:
-    """ Сообщение от пользователя """
     id: int
     first_name: str
     last_name: Optional[str]
-    username: str
+    username: Optional[str]
+    is_bot: bool = False
 
     class Meta:
         unknown = EXCLUDE
 
+
+MessageFromSchema = marshmallow_dataclass.class_schema(MessageFrom)
 
 @dataclass
 class Chat:
-    """ Чат пользователя """
     id: int
     type: str
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    username: Optional[str] = None
-    title: Optional[str] = None
+    title: Optional[str]
+    username: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
 
     class Meta:
         unknown = EXCLUDE
+
+
+ChatSchema = marshmallow_dataclass.class_schema(Chat)
 
 
 @dataclass
 class Message:
-    """ Сообщения """
     message_id: int
-    from_: MessageFrom = field(metadata={"data_key": "from"})
+    message_from: MessageFrom = field(metadata={'data_key': 'from'})
     chat: Chat
     text: Optional[str] = None
 
@@ -43,9 +46,11 @@ class Message:
         unknown = EXCLUDE
 
 
+MessageSchema = marshmallow_dataclass.class_schema(Message)
+
+
 @dataclass
 class UpdateObj:
-    """ Обновить объект """
     update_id: int
     message: Message
 
@@ -53,25 +58,28 @@ class UpdateObj:
         unknown = EXCLUDE
 
 
+UpdateObjSchema = marshmallow_dataclass.class_schema(UpdateObj)
+
+
 @dataclass
 class GetUpdatesResponse:
-    """ Получить ответ об обновлениях """
     ok: bool
     result: List[UpdateObj]
 
-    Schema: ClassVar[Type[Schema]] = Schema
-
     class Meta:
         unknown = EXCLUDE
+
+
+GetUpdatesResponseSchema = marshmallow_dataclass.class_schema(GetUpdatesResponse)
 
 
 @dataclass
 class SendMessageResponse:
-    """ Отправить сообщение Ответ """
     ok: bool
     result: Message
 
-    Schema: ClassVar[Type[Schema]] = Schema
-
     class Meta:
         unknown = EXCLUDE
+
+
+SendMessageResponseSchema = marshmallow_dataclass.class_schema(SendMessageResponse)
