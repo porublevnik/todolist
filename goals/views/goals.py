@@ -27,8 +27,8 @@ class GoalListView(ListAPIView):
         DjangoFilterBackend,
     ]
     filterset_class = GoalDateFilter
-    ordering_fields = ["title", "created", "deadline", "priority"]
-    ordering = ["deadline", "priority"]
+    ordering_fields = ["title", "created", "due_date", "priority"]
+    ordering = ["due_date", "priority"]
     search_fields = ["title"]
 
 
