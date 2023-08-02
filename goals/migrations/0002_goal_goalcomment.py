@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('priority', models.PositiveSmallIntegerField(choices=[(1, 'Низкий'), (2, 'Средний'), (3, 'Высокий'), (4, 'Критический')], default=2, verbose_name='Приоритет')),
                 ('title', models.CharField(max_length=255, verbose_name='Название')),
                 ('description', models.CharField(blank=True, default=None, max_length=2550, null=True, verbose_name='Описание')),
-                ('deadline', models.DateTimeField(blank=True, default=None, null=True, verbose_name='Дата выполнения')),
+                ('due_date', models.DateTimeField(blank=True, default=None, null=True, verbose_name='Дата выполнения')),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='goals.goalcategory', verbose_name='Категория')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL, verbose_name='Автор')),
             ],
