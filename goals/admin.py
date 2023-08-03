@@ -12,8 +12,8 @@ class GoalCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Goal)
 class GoalAdmin(admin.ModelAdmin):
-    list_display = ["user", "category", "title", "status", "priority", "deadline"]
-    list_filter = ["status", "priority", "deadline"]
+    list_display = ["user", "category", "title", "status", "priority", "due_date"]
+    list_filter = ["status", "priority", "due_date"]
 
 
 @admin.register(GoalComment)

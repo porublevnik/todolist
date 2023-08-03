@@ -73,7 +73,7 @@ class Goal(DatesModelMixin):
     title = models.CharField(verbose_name="Название", max_length=255)
     description = models.CharField(verbose_name="Описание", null=True, blank=True, default=None, max_length=2550)
     user = models.ForeignKey(User, verbose_name="Автор", on_delete=models.PROTECT)
-    deadline = models.DateTimeField(verbose_name="Дата выполнения", null=True, blank=True, default=None)
+    due_date = models.DateTimeField(verbose_name="Дата выполнения", null=True, blank=True, default=None)
     category = models.ForeignKey(GoalCategory, verbose_name="Категория", on_delete=models.PROTECT)
 
 class GoalComment(DatesModelMixin):
