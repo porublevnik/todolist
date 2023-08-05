@@ -17,3 +17,4 @@ class VerificationView(generics.GenericAPIView):
         tg_user: TGUser = serializer.save(user=request.user)
         TgClient().send_message(chat_id=tg_user.chat_id, text='Bot token has been verified')
         return Response(serializer.data)
+    
