@@ -4,7 +4,7 @@ from bot.models import TGUser
 
 
 class TGUserSerializer(serializers.ModelSerializer):
-    tg_id = serializers.IntegerField(source='telegram_chat_id', read_only=True)
+    tg_id = serializers.IntegerField(source='chat_id', read_only=True)
     username = serializers.CharField(allow_null=True, read_only=True)
     user_id = serializers.IntegerField(source='user.id', read_only=True)
     verification_code = serializers.CharField(write_only=True)

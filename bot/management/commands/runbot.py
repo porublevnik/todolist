@@ -33,4 +33,3 @@ class Command(BaseCommand):
 
     def handle_auth_user(self, tg_user: TGUser, msg: Message) -> None:
         print('Обработка')
-
