@@ -46,11 +46,14 @@ class GoalView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
+    # def get_queryset(self):
+    #     return Goal.objects.filter(
+    #         category__board__participants__user=self.request.user,
+    #         status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
+    #     )
     def get_queryset(self):
-        return Goal.objects.filter(
-            category__board__participants__user=self.request.user,
-            status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
-        )
+        return GoalCategory.objects.filter(user=self.request.user, is_deleted=False)
+
 
     def perform_destroy(self, instance):
         instance.status = Goal.Status.archived
