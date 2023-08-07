@@ -38,9 +38,10 @@ class GoalListView(ListAPIView):
     #         status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
     #     )
     def get_queryset(self):
-        return GoalCategory.objects.filter(
-            board__participants__user=self.request.user
-        ).exclude(is_deleted=True)
+        return GoalCategory.objects.select.related('user').filter(
+            user=self.request.user,
+            category__is_deleted=False,
+        ).exclude(status=Goal.Status.archived)
 
 class GoalView(RetrieveUpdateDestroyAPIView):
     model = Goal
@@ -54,9 +55,10 @@ class GoalView(RetrieveUpdateDestroyAPIView):
     #         status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
     #     )
     def get_queryset(self):
-        return GoalCategory.objects.filter(
-            board__participants__user=self.request.user
-        ).exclude(is_deleted=True)
+        return GoalCategory.objects.select.related('user').filter(
+            user=self.request.user,
+            category__is_deleted=False,
+        ).exclude(status=Goal.Status.archived)
 
 
     def perform_destroy(self, instance):
