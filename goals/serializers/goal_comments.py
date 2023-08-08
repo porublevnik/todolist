@@ -21,13 +21,13 @@ class GoalCommentCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Вы не являетесь автором этого комментария")
         return value
 
-class GoalCommentSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    class Meta:
-        model = GoalComment
-        fields = "__all__"
-        read_only_fields = ("id", "created", "updated", "user")
+# class GoalCommentSerializer(serializers.ModelSerializer):
+#     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+#
+#     class Meta:
+#         model = GoalComment
+#         fields = "__all__"
+#         read_only_fields = ("id", "created", "updated", "user")
 
     # def validate_goal(self, value):
     #
@@ -40,20 +40,24 @@ class GoalCommentSerializer(serializers.ModelSerializer):
     #     return value
 
 
-class GoalCommentDetailSerializer(serializers.ModelSerializer):
+# class GoalCommentDetailSerializer(serializers.ModelSerializer):
+#     user = UserProfileSerializer(read_only=True)
+#
+#     class Meta:
+#         model = GoalComment
+#         fields = "__all__"
+#         read_only_fields = ("id", "created", "updated", "user")
+
+    # def validate_goal(self, value):
+    #
+    #     if not BoardParticipant.objects.filter(
+    #             board_id=value.category.board_id,
+    #             role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+    #             user=self.context["request"].user,
+    #     ).exists():
+    #         raise serializers.ValidationError("Вы не являетесь автором этого комментария")
+    #     return value
+
+class GoalCommentSerializer(GoalCommentCreateSerializer):
     user = UserProfileSerializer(read_only=True)
-
-    class Meta:
-        model = GoalComment
-        fields = "__all__"
-        read_only_fields = ("id", "created", "updated", "user")
-
-    # def validate_goal(self, value):
-    #
-    #     if not BoardParticipant.objects.filter(
-    #             board_id=value.category.board_id,
-    #             role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
-    #             user=self.context["request"].user,
-    #     ).exists():
-    #         raise serializers.ValidationError("Вы не являетесь автором этого комментария")
-    #     return value
+    goal = serializers.PrimaryKeyRelatedField(read_only=True)
