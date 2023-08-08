@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -32,15 +33,12 @@ class GoalListView(ListAPIView):
     search_fields = ["title"]
 
 
-    # def get_queryset(self):
-    #     return Goal.objects.filter(
-    #         category__board__participants__user=self.request.user,
-    #         status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
-    #     )
     def get_queryset(self):
-        return GoalCategory.objects.filter(
-            board__participants__user=self.request.user
-        ).exclude(is_deleted=True)
+        return Goal.objects.filter(
+            category__board__participants__user=self.request.user,
+            status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
+        )
+
 
 class GoalView(RetrieveUpdateDestroyAPIView):
     model = Goal
@@ -48,16 +46,11 @@ class GoalView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
-    # def get_queryset(self):
-    #     return Goal.objects.filter(
-    #         category__board__participants__user=self.request.user,
-    #         status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
-    #     )
     def get_queryset(self):
-        return GoalCategory.objects.filter(
-            board__participants__user=self.request.user
-        ).exclude(is_deleted=True)
-
+        return Goal.objects.filter(
+            category__board__participants__user=self.request.user,
+            status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
+        )
 
     def perform_destroy(self, instance):
         instance.status = Goal.Status.archived
