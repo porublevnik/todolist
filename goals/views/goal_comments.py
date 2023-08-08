@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import LimitOffsetPagination
@@ -22,11 +23,10 @@ class GoalCommentListView(ListAPIView):
     pagination_class = LimitOffsetPagination
     filter_backends = [
         filters.OrderingFilter,
-        filters.SearchFilter,
+        DjangoFilterBackend,
     ]
-    ordering_fields = ["created"]
-    ordering = ["created"]
-    search_fields = ["text", "user"]
+    filterset_fields = ['goal']
+    ordering = ["-created"]
 
     # def get_queryset(self):
     #     return GoalComment.objects.filter(
