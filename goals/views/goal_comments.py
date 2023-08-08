@@ -5,8 +5,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 
 from goals.models import GoalComment
-from goals.serializers.goal_comments import GoalCommentCreateSerializer, GoalCommentSerializer, \
-    GoalCommentDetailSerializer
+from goals.serializers.goal_comments import GoalCommentCreateSerializer, GoalCommentSerializer
 from goals.permissions import CommentPermissions
 
 
