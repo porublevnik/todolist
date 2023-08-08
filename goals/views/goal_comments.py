@@ -11,13 +11,13 @@ from goals.permissions import CommentPermissions
 
 class GoalCommentCreateView(CreateAPIView):
     model = GoalComment
-    permission_classes = [IsAuthenticated, CommentPermissions]
+    permission_classes = [IsAuthenticated]
     serializer_class = GoalCommentCreateSerializer
 
 
 class GoalCommentListView(ListAPIView):
     model = GoalComment
-    permission_classes = [IsAuthenticated, CommentPermissions]
+    permission_classes = [IsAuthenticated]
     serializer_class = GoalCommentSerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [
@@ -40,7 +40,7 @@ class GoalCommentListView(ListAPIView):
 class GoalCommentView(RetrieveUpdateDestroyAPIView):
     model = GoalComment
     serializer_class = GoalCommentDetailSerializer
-    permission_classes = [IsAuthenticated, CommentPermissions]
+    permission_classes = [IsAuthenticated]
 
     # def get_queryset(self):
     #     return GoalComment.objects.filter(user=self.request.user)
