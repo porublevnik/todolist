@@ -30,12 +30,12 @@ class GoalCategoryListView(ListAPIView):
     filterset_fields = ["board", "user"] #new
 
     def get_queryset(self):
-        # return GoalCategory.objects.filter(
-        #     user=self.request.user, is_deleted=False
-        # )
         return GoalCategory.objects.filter(
-            board__participants__user=self.request.user, is_deleted=False
+            user=self.request.user, is_deleted=False
         )
+        # return GoalCategory.objects.filter(
+        #     board__participants__user=self.request.user, is_deleted=False
+        # )
 
 
 class GoalCategoryView(RetrieveUpdateDestroyAPIView):
@@ -44,12 +44,12 @@ class GoalCategoryView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # return GoalCategory.objects.filter(
-        #     user=self.request.user, is_deleted=False
-        # )
         return GoalCategory.objects.filter(
-            board__participants__user=self.request.user, is_deleted=False
+            user=self.request.user, is_deleted=False
         )
+        # return GoalCategory.objects.filter(
+        #     board__participants__user=self.request.user, is_deleted=False
+        # )
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
