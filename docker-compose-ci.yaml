@@ -56,7 +56,7 @@ services:
     image: porublevnik/todolist:latest
     env_file: .env
     depends_on:
-      migrations:
+      run_migrations:
         condition: service_completed_successfully
     command: python manage.py runbot
 
