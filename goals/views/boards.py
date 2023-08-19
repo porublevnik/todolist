@@ -11,18 +11,26 @@ from goals.serializers.boards import BoardCreateSerializer, BoardSerializer, Boa
 
 
 class BoardCreateView(CreateAPIView):
+    """
+    Представление для создания новой доски.
+    """
     model = Board
     permission_classes: list = [IsAuthenticated]
     serializer_class = BoardCreateSerializer
 
 
 class BoardView(RetrieveUpdateDestroyAPIView):
+    """
+    Представление для просмотра, обновления и удаления доски.
+    """
     model = Board
     permission_classes: list = [BoardPermissions]
     serializer_class = BoardSerializer
 
     def get_queryset(self) -> QuerySet[Board]:
-        # Обратите внимание на фильтрацию – она идет через participants
+        """
+        Фильтрует список досок по полю participants, где пользователь является участником.
+        """
         return Board.objects.filter(participants__user=self.request.user, is_deleted=False)
 
     def perform_destroy(self, instance: Board) -> Board:
@@ -39,6 +47,10 @@ class BoardView(RetrieveUpdateDestroyAPIView):
 
 
 class BoardListView(ListAPIView):
+    """
+    Представление для просмотра списка всех досок.
+    Позволяет получить список всех досок, к которым пользователь имеет доступ.
+    """
     model = Board
     permission_classes = [BoardPermissions]
     pagination_class = LimitOffsetPagination
@@ -47,5 +59,7 @@ class BoardListView(ListAPIView):
     ordering = ["title"]
 
     def get_queryset(self) -> QuerySet[Board]:
+        """
+        Фильтрует список досок по полю participants, где пользователь является участником.
+        """
         return Board.objects.filter(participants__user=self.request.user, is_deleted=False)
-    

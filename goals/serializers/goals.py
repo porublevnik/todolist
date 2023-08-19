@@ -4,6 +4,10 @@ from core.serializers import UserProfileSerializer
 
 
 class GoalCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для создания объектов модели Goal.
+    Проверяет, что пользователь является владельцем категории, связанной с целью.
+    """
     category = serializers.PrimaryKeyRelatedField(
         queryset=GoalCategory.objects.all()
     )
@@ -14,7 +18,10 @@ class GoalCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "created", "updated", "user")
         fields = "__all__"
 
-    def validate_category(self, value):
+    def validate_category(self, value: GoalCategory) -> GoalCategory:
+        """
+        Проверяет, что категория, связанная с целью, не удалена и пользователь является владельцем категории.
+        """
         if value.is_deleted:
             raise serializers.ValidationError("категория удалена")
 
@@ -30,6 +37,9 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 
 
 class GoalSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для вывода списка объектов модели Goal.
+    """
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -37,7 +47,10 @@ class GoalSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("id", "created", "updated", "user", "category")
 
-    def validate_category(self, value):
+    def validate_category(self, value: GoalCategory) -> GoalCategory:
+        """
+        Проверяет, что категория, связанная с целью, не удалена и пользователь является владельцем категории.
+        """
         if value.is_deleted:
             raise serializers.ValidationError("категория удалена")
 
@@ -47,6 +60,9 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class GoalDetailSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для вывода объектов модели Goal.
+    """
     user = UserProfileSerializer(read_only=True)
 
     class Meta:
@@ -54,7 +70,10 @@ class GoalDetailSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("id", "created", "updated", "user", "category")
 
-    def validate_category(self, value):
+    def validate_category(self, value: GoalCategory) -> GoalCategory:
+        """
+        Проверяет, что категория, связанная с целью, не удалена и пользователь является владельцем категории.
+        """
         if value.is_deleted:
             raise serializers.ValidationError("категория удалена")
 

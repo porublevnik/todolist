@@ -12,12 +12,18 @@ from goals.permissions import GoalPermissions
 
 
 class GoalCreateView(CreateAPIView):
+    """
+    Представление для создания целей.
+    """
     model = Goal
     permission_classes = [GoalPermissions]
     serializer_class = GoalCreateSerializer
 
 
 class GoalListView(ListAPIView):
+    """
+    Представление для просмотра и фильтрации списка всех целей.
+    """
     model = Goal
     permission_classes = [GoalPermissions]
     serializer_class = GoalSerializer
@@ -33,6 +39,9 @@ class GoalListView(ListAPIView):
     search_fields = ["title"]
 
     def get_queryset(self) -> QuerySet[Goal]:
+        """
+        Фильтрует список целей по полю сategory и полю status.
+        """
         return Goal.objects.filter(
             category__board__participants__user=self.request.user,
             status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
@@ -40,18 +49,28 @@ class GoalListView(ListAPIView):
 
 
 class GoalView(RetrieveUpdateDestroyAPIView):
+    """
+    Представление для просмотра, обновления и удаления целей.
+    """
     model = Goal
     serializer_class = GoalSerializer
     permission_classes = [GoalPermissions]
 
 
     def get_queryset(self) -> QuerySet[Goal]:
+        """
+        Фильтрует список целей по полю сategory и полю status.
+        """
         return Goal.objects.filter(
             category__board__participants__user=self.request.user,
             status__in=[Goal.Status.to_do, Goal.Status.in_progress, Goal.Status.done]
         )
 
     def perform_destroy(self, instance: Goal) -> Goal:
+        """
+        Выполняет удаление цель.
+        При удалении категории помечает ее как archived".
+        """
         instance.status = Goal.Status.archived
         instance.save()
         return instance

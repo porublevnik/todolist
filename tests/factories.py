@@ -41,5 +41,5 @@ class GoalCommentFactory(DjangoModelFactory):
         model = GoalComment
 
     user = SubFactory(UserFactory)
-    category = SubFactory(GoalFactory)
-    title = Faker("name")
+    goal = SubFactory(GoalFactory)
+    text = Faker("text")

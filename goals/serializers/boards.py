@@ -8,6 +8,9 @@ from goals.models import Board, BoardParticipant
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для создания модели Board
+    """
     user: serializers.HiddenField = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -28,7 +31,9 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
 
 class BoardParticipantSerializer(serializers.ModelSerializer):
-
+    """
+    Сериализатор для создания модели BoardParticipant
+    """
     role = serializers.ChoiceField(
         required=True, choices=BoardParticipant.Role.choices
     )
@@ -43,6 +48,9 @@ class BoardParticipantSerializer(serializers.ModelSerializer):
 
 
 class BoardSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для вывода объектов модели Board.
+    """
     participants = BoardParticipantSerializer(many=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
@@ -52,6 +60,9 @@ class BoardSerializer(serializers.ModelSerializer):
         read_only_fields: tuple = ("id", "created", "updated")
 
     def update(self, instance: Board, validated_data: Dict) -> Board:
+        """
+        Обновляет доску и роли участников доски.
+        """
         owner = validated_data.pop("user")
         old_participants = instance.participants.exclude(user=owner)
         new_participants = validated_data.pop("participants")
@@ -80,7 +91,9 @@ class BoardSerializer(serializers.ModelSerializer):
         return instance
 
 class BoardListSerializer(serializers.ModelSerializer):
-
+    """
+    Сериализатор для вывода списка объектов модели Board.
+    """
     class Meta:
         model: Board = Board
         fields: str = "__all__"

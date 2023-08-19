@@ -10,24 +10,28 @@ from core.models import User
 
 
 class UserRegistrationView(CreateAPIView):
+    '''
+    Представление для регистрации нового пользователя.
+    '''
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
 
 
 class UserLoginView(CreateAPIView):
     '''
-    Представление для регистрации нового пользователя.
+    Представление для аутентификации нового пользователя.
     '''
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs) -> Response:
-        '''Создание нового пользователя из данных POST-запроса'''
+        '''
+        Обрабатывает POST-запрос для выполнения входа пользователя.
+        '''
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         login(request=request, user=user)
         return Response(serializer.data)
-
 
 
 class UserProfileView(RetrieveUpdateDestroyAPIView):

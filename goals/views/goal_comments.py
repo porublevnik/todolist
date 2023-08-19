@@ -11,12 +11,18 @@ from goals.permissions import CommentPermissions
 
 
 class GoalCommentCreateView(CreateAPIView):
+    """
+    Представление для создания комментариев.
+    """
     model = GoalComment
     permission_classes = [CommentPermissions]
     serializer_class = GoalCommentCreateSerializer
 
 
 class GoalCommentListView(ListAPIView):
+    """
+    Представление для просмотра списка всех комментариев цели.
+    """
     model = GoalComment
     permission_classes = [CommentPermissions]
     serializer_class = GoalCommentSerializer
@@ -29,13 +35,22 @@ class GoalCommentListView(ListAPIView):
     ordering = ["-created"]
 
     def get_queryset(self) -> QuerySet[GoalComment]:
+        """
+        Фильтрует список комментариев по полю goal.
+        """
         return GoalComment.objects.filter(goal__category__board__participants__user=self.request.user)
 
 
 class GoalCommentView(RetrieveUpdateDestroyAPIView):
+    """
+    Представление для просмотра, обновления и удаления комментариев.
+    """
     model = GoalComment
     serializer_class = GoalCommentSerializer
     permission_classes = [CommentPermissions]
 
     def get_queryset(self) -> QuerySet[GoalComment]:
+        """
+        Фильтрует список комментариев по полю goal.
+        """
         return GoalComment.objects.filter(goal__category__board__participants__user=self.request.user)
